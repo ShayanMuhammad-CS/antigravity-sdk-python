@@ -2090,6 +2090,10 @@ def _read_file_safely(path: str | pathlib.Path) -> bytes:
         f"Path is a directory, not a file: '{file_path}'"
     ) from exc
   except PermissionError as exc:
+    if file_path.is_dir():
+      raise IsADirectoryError(
+          f"Path is a directory, not a file: '{file_path}'"
+      ) from exc
     raise PermissionError(
         f"Permission denied when reading path: '{file_path}'"
     ) from exc
